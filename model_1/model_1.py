@@ -4,6 +4,7 @@
 from keras.utils import np_utils  
 from keras.models import Sequential  
 from keras.layers import Dense,Dropout,Flatten,Conv2D,MaxPooling2D  
+from keras import optimizers
 import numpy as np  
 import data
 np.random.seed(10)  
@@ -58,7 +59,8 @@ model.summary()
 print("") 
 
 # 定義訓練方式  
-model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])  
+adam = optimizers.Adam(lr=0.02, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])  
   
 # 開始訓練  
 train_history = model.fit(x=X_Train,  
