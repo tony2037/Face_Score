@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+import json
 
 base_url = "https://www.ptt.cc"
 
@@ -21,6 +22,7 @@ def craw_target():
             links.append(link["href"])
 
     print(links)
+    return links
 
 
 
@@ -41,8 +43,8 @@ def craw_in(route ="/bbs/Beauty/M.1524314952.A.CD3.html"):
 
     image_block = soup.find("blockquote" ,{"class":"imgur-embed-pub"})
     image_url = image_block.find("a")["href"]
-
     print(image_url)
+    download_img_from_imgur(url=image_url)
 
     #calculate score
     pushes = soup.select("span.push-tag")
@@ -54,6 +56,15 @@ def craw_in(route ="/bbs/Beauty/M.1524314952.A.CD3.html"):
 
     print(score)
     #print("score:{}".format(score))
+
+    data = {"score":score}
+    y_path = "./dataset/y/"
+    with open(y_path+image_url[12:]+".json", "w") as f:
+        #f.write(json.dumps({"score":score}))
+        json.dump(data,f)
+        f.close()
+        print("Save success : {}", (y_path+image_url[12:]))
+
     return score
 
 def download_img_from_imgur(url="//imgur.com/5vdz5Zg", path="./dataset/x/"):
@@ -67,4 +78,6 @@ def download_img_from_imgur(url="//imgur.com/5vdz5Zg", path="./dataset/x/"):
 
 
 if __name__ == "__main__":
-    download_img_from_imgur()
+    links = craw_target()
+    for link in links:
+        craw_in(route=link)
