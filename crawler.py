@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import requests
 from bs4 import BeautifulSoup
+import os
 
 base_url = "https://www.ptt.cc"
 
@@ -41,6 +42,8 @@ def craw_in(route ="/bbs/Beauty/M.1524314952.A.CD3.html"):
     image_block = soup.find("blockquote" ,{"class":"imgur-embed-pub"})
     image_url = image_block.find("a")["href"]
 
+    print(image_url)
+
     #calculate score
     pushes = soup.select("span.push-tag")
     score = 0
@@ -53,5 +56,15 @@ def craw_in(route ="/bbs/Beauty/M.1524314952.A.CD3.html"):
     #print("score:{}".format(score))
     return score
 
+def download_img_from_imgur(url="//imgur.com/5vdz5Zg", path="./dataset/x/"):
+    res = requests.get("http:" + url + ".jpg")
+    with open(path+url[12:]+".jpg", 'wb') as f:
+                   f.write(res.content)
+                   f.close()
+                   print("Save success")
+    #soup = BeautifulSoup(res.text)
+    #img = soup.find("img",{"itemprop": "contentURL"})
+
+
 if __name__ == "__main__":
-    craw_in()
+    download_img_from_imgur()
