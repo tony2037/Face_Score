@@ -1,5 +1,6 @@
+# -*- coding: UTF-8 -*-  
 #!/usr/bin/env python3  
-from keras.datasets import mnist  
+  
 from keras.utils import np_utils  
 from keras.models import Sequential  
 from keras.layers import Dense,Dropout,Flatten,Conv2D,MaxPooling2D  
@@ -62,4 +63,4 @@ model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
 # 開始訓練  
 train_history = model.fit(x=X_Train,  
                           y=y_Train, validation_split=0.2,  
-                          epochs=10, batch_size=1, verbose=2)
+                          epochs=100, batch_size=1, verbose=2)
