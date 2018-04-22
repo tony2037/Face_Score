@@ -29,7 +29,7 @@ def load_data(x_path="./dataset/x/", y_path="./dataset/y/"):
     for i in range(0 , len(y_list)):
         with open(y_list[i],"r") as f:
             data = json.load(f)
-            y_Train.append(data["score"])
+            y_Train.append([data["score"]])
 
     y_Train = np.array(y_Train)
     #y_Train = np.reshape(y_Train,[y_Train.shape[0]])
